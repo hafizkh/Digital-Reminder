@@ -19,7 +19,7 @@ export default function Header() {
           >
           </IconButton>
           <Typography variant="h6" component="div" >
-          Digital Reminder
+            Digital Reminder
           </Typography>
         </Toolbar>
       </AppBar>

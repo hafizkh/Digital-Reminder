@@ -1,7 +1,7 @@
 # To Do Application
 ### Deployement
 
-- Deployement would be taken place
+- Deployement would be taken place once application would be done
 
 ### Uses:
 - Can be used to note down daily tasks
