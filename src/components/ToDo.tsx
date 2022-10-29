@@ -20,24 +20,30 @@ const ToDo: FC = () => {
   }
   return (
     <div>
-    <Stack className='toDoTask' direction='row' spacing={1}>
-      <TextField
-        hiddenLabel
-        name='yourTask'
-        label="Your New Task"
-        id="outlined-size-small"
-        size="small"
-        value={task}
-        onChange={handleChange}
-      />
-      <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
+      <Stack className='toDoTask' direction='row' spacing={1}>
+        <TextField
+          hiddenLabel
+          name='yourTask'
+          label="Your New Task"
+          id="outlined-size-small"
+          size="small"
+          value={task}
+          onChange={handleChange}
+        />
+        <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
       </Stack>
-      <Stack className="listToDo" direction='column'>
-        {todoList.map((task:TasksInterface, key:number)=>{
-          return <ToDoCard key={key} task={task}/>
-        })}
-      </Stack>
-  </div>
+      {
+        todoList.length ?
+          <Stack className="listToDo" direction='column'>
+            <h1>List of Todos</h1>
+            {todoList.map((task: TasksInterface, key: number) => {
+              return <ToDoCard key={key} task={task} />
+            })}
+          </Stack>
+          :
+          <h3>No Items are added yet in the List</h3>
+      }
+    </div>
   )
 }
 

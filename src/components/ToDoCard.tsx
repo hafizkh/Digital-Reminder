@@ -1,25 +1,29 @@
 import React from 'react'
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Stack from '@mui/material/Stack'
 import { TasksInterface } from '../Category/Interface'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import Button from '@mui/material/Button'
 
 interface Props {
     task: TasksInterface
 }
 const ToDoCard = ({ task }: Props) => {
     return (
+        <>
         <div className='todoList'>
-            <Stack direction='row' spacing={8}>
-                <h2>{task.taskName}</h2>
-                <Button>Delete</Button>
-            </Stack>
-            <Divider />
-
+            <Card sx={{ minWidth: 330 }}>
+                <CardContent className='content'>
+                    <Typography variant="h5">
+                        {task.taskName}
+                    <Button className='deleteBtn' style={{paddingLeft:'12rem'}}><DeleteForeverIcon /></Button>
+                    </Typography>
+                </CardContent>
+            </Card>
         </div>
+        </>
     )
 }
 
