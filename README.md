@@ -1,8 +1,9 @@
 # To Do Application
 
 ### Deployement
+#### URL
 
-- Deployement would be taken place once application would be done
+[Digital Reminder](https://digitalreminder.netlify.app/)
 
 ### Uses:
 
