@@ -33,8 +33,8 @@ const ToDo: FC = () => {
       <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
       </Stack>
       <Stack className="listToDo" direction='column'>
-        {todoList.map(()=>{
-          return <ToDoCard/>
+        {todoList.map((task:TasksInterface, key:number)=>{
+          return <ToDoCard key={key} task={task}/>
         })}
       </Stack>
   </div>
