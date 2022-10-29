@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import '../styles/_todo.scss'
 import { TasksInterface } from '../Category/Interface'
 import ToDoCard from './ToDoCard';
+import todo from '../assets/images.jpg'
 
 
 const ToDo: FC = () => {
@@ -18,8 +19,14 @@ const ToDo: FC = () => {
     setTodoList([...todoList, taskNew])
     setTask("")
   }
+  const handleDel = (taskToBeDeleted: string): void => {
+    setTodoList(todoList.filter((task) => {
+      return task.taskName != taskToBeDeleted
+    }))
+  }
   return (
     <div>
+        <img src={todo} alt="To do"  />
       <Stack className='toDoTask' direction='row' spacing={1}>
         <TextField
           hiddenLabel
@@ -37,13 +44,13 @@ const ToDo: FC = () => {
           <Stack className="listToDo" direction='column'>
             <h1>List of Todos</h1>
             {todoList.map((task: TasksInterface, key: number) => {
-              return <ToDoCard key={key} task={task} />
+              return <ToDoCard key={key} task={task} handleDel={handleDel} />
             })}
           </Stack>
           :
           <h3>No Items are added yet in the List</h3>
       }
-    </div>
+      </div>
   )
 }
 

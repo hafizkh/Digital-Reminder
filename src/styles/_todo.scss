@@ -1,6 +1,6 @@
 
 .toDoTask {
-    margin-top: 2rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -16,5 +16,9 @@
     display: flex;
 }
 .deleteBtn{
-    padding-left: 220px
+    padding-left: 12rem
+}
+img{
+    width: 9rem;
+    height: 8rem;
 }
