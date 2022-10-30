@@ -16,7 +16,7 @@ const ToDoCard = ({ task, handleDel }: Props) => {
         <div className='todoList'>
             <Card sx={{ minWidth: 330 }}>
                 <CardContent className='content'>
-                    <Typography variant="h5">
+                    <Typography variant="h6">
                         {task.taskName}
                         <Button className='deleteBtn' style={{ paddingLeft: '12rem' }}
                             onClick={() => { handleDel(task.taskName) }}>
