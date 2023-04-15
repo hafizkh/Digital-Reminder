@@ -1,4 +1,4 @@
-name: Label & comment issues #the name of the workflow
+name: Label & comment issues #the name of the workfloww
 on: # This action will trigger when an issue is reopened or opened.
   issues:
     types:
