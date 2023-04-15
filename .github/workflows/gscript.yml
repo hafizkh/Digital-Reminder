@@ -1,13 +1,31 @@
-name: Congratulate on first pull request and comment on closed issue
+name: Automated Issue Management
 
 on:
-  pull_request_review:
-    types: [submitted]
   issues:
     types: [closed]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  congratulate-and-comment:
+  issue-closed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on closed issue
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const comment = 'The issue is now resolved.';
+            const { Octokit } = require("@octokit/rest");
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            await octokit.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: comment
+            });
+
+  congratulate-on-first-pr:
     runs-on: ubuntu-latest
     steps:
       - name: Check if it's the user's first pull request
@@ -28,27 +46,9 @@ jobs:
             const comment = 'Congratulations on opening your first pull request! :tada:';
             const { Octokit } = require("@octokit/rest");
             const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            await octokit.rest.issues.createComment({
+            await octokit.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.pull_request.number,
-              body: comment
-            });
-      - name: Check if issue is closed
-        if: github.event.issue.state == 'closed'
-        run: echo "Issue is closed"
-      - name: Comment on issue
-        uses: actions/github-script@v5
-        if: github.event.issue.state == 'closed'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const comment = 'The issue is now resolved.';
-            const { Octokit } = require("@octokit/rest");
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            await octokit.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.issue.number,
               body: comment
             });
