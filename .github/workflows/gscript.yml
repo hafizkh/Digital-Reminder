@@ -1,4 +1,4 @@
-name: Issue and PR notifications
+name: Issue and PR notificationss
 
 on:
   issues:
