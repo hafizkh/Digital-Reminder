@@ -1,60 +1,49 @@
-name: Issue and PR Actions
+name: Congratulate on first pull request and comment on closed issue
 
 on:
-  issues:
-    types: [closed]
   pull_request:
     types: [opened]
+  issues:
+    types: [closed]
 
 jobs:
-  congratulate-first-pr:
+  congratulate-and-comment:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
     steps:
-      - name: Congratulate First PR
+      - name: Check if it's the user's first pull request
+        uses: jaydson/first-pr-action@v1
+        id: first-pr
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Congratulate user on first pull request
+        if: steps.first-pr.outputs.first_pr == 'true'
         uses: actions/github-script@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const pullNumber = context.payload.number;
             const author = context.payload.pull_request.user.login;
+            const comment = 'Congratulations on opening your first pull request! :tada:';
             const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
-            const response = await octokit.search.issuesAndPullRequests({
-              q: `type:pr+is:merged+author:${author}+repo:${owner}/${repo}`
+            await octokit.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: comment
             });
-            if (response.data.total_count === 0) {
-              const comment = 'Congratulations on opening your first pull request! :tada:';
-              await octokit.issues.createComment({
-                owner,
-                repo,
-                issue_number: pullNumber,
-                body: comment
-              });
-            }
-
-  comment-on-issue:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'issues' && github.event.action == 'closed'
-    steps:
-      - name: Comment on Issue
+      - name: Check if issue is closed
+        if: github.event.issue.state == 'closed'
+        run: echo "Issue is closed"
+      - name: Comment on issue
         uses: actions/github-script@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event.issue.state == 'closed'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issueNumber = context.payload.issue.number;
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
             const comment = 'The issue is now resolved.';
+            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
             await octokit.issues.createComment({
-              owner,
-              repo,
-              issue_number: issueNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
               body: comment
             });
