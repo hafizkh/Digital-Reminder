@@ -1,8 +1,8 @@
 name: Congratulate on first pull request and comment on closed issue
 
 on:
-  pull_request:
-    types: [opened]
+  pull_request_review:
+    types: [submitted]
   issues:
     types: [closed]
 
@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check if it's the user's first pull request
-        uses: jaydson/first-pr-action@v1
         id: first-pr
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ $(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/search/issues?q=type:pr+author:${{ github.event.pull_request.user.login }}+is:merged | jq -r '.total_count') -eq 1 ]; then
+            echo "::set-output name=first_pr::true"
+          else
+            echo "::set-output name=first_pr::false"
+          fi
       - name: Congratulate user on first pull request
         if: steps.first-pr.outputs.first_pr == 'true'
         uses: actions/github-script@v5
