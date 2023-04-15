@@ -24,7 +24,7 @@ jobs:
             })
 
   notify_pr_opened:
-    if: github.event.pull_request.number == 1
+    if: github.event.pull_request.number != null
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
@@ -36,5 +36,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Congratulations on opening your first pull request!'
+              body: 'Congratulations on opening your pull request!'
             })
