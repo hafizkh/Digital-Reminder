@@ -12,15 +12,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to issue
-        uses: peter-evans/add-comment@v1
+        uses: actions/github-script@v5
         with:
-          body: 'The issue is now resolved.'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'The issue is now resolved.'
+            })
 
   notify_pr_opened:
     if: github.event.pull_request.number == 1
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to PR
-        uses: peter-evans/add-comment@v1
+        uses: actions/github-script@v5
         with:
-          body: 'Congratulations on opening your first pull request!'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Congratulations on opening your first pull request!'
+            })
