@@ -1,43 +1,60 @@
-name: Label & comment issues #the name of the workflows
-on: # This action will trigger when an issue is reopened or opened.
+name: Issue and PR Actions
+
+on:
   issues:
-    types:
-      - reopened
-      - opened
-      - closed
-      
-jobs: # The jobs that run in this workflow
-  label_issues: # the first job is named as label_issues
-    runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
-    permissions: # This job requires write access to issues in order to add labels and comment.
-      issues: write
-    steps: # The "steps" section contains the individual tasks that will be performed in this job.
-      - name: attach label to issues # The name of the step
-        uses: actions/github-script@v6 # This step uses the "actions/github-script" action to execute a script that adds labels to the issue.
+    types: [closed]
+  pull_request:
+    types: [opened]
+
+jobs:
+  congratulate-first-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Congratulate First PR
+        uses: actions/github-script@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          script: | # The script calls the GitHub REST API to add labels to the issue.
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ["issue", "fix"]
-            })
-      
-      - name: Closed Issue Message
-        uses: aws-actions/closed-issue-message@v1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pullNumber = context.payload.number;
+            const author = context.payload.pull_request.user.login;
+            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
+            const response = await octokit.search.issuesAndPullRequests({
+              q: `type:pr+is:merged+author:${author}+repo:${owner}/${repo}`
+            });
+            if (response.data.total_count === 0) {
+              const comment = 'Congratulations on opening your first pull request! :tada:';
+              await octokit.issues.createComment({
+                owner,
+                repo,
+                issue_number: pullNumber,
+                body: comment
+              });
+            }
+
+  comment-on-issue:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues' && github.event.action == 'closed'
+    steps:
+      - name: Comment on Issue
+        uses: actions/github-script@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-            # These inputs are both required
-            repo-token: "${{ secrets.GITHUB_TOKEN }}"
-            message: "Comments on closed issues are hard for our team to see." 
-
-      - name: Comment on new issue #this is another step that comments on the issue 
-        uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the issue.
-        with:
-          issue-number: ${{ github.event.issue.number }} # The issue number is obtained from the context of the event that triggered the action.
-          body: | # The body of the comment is a message thanking the user for opening the issue.
-           Thanks for opening this issue! We'll take a look as soon as possible.
-# Comment on when an issue is closedzz
-
-
-
-# Comment on when an users opens the first pull request 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
+            const comment = 'The issue is now resolved.';
+            await octokit.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body: comment
+            });
