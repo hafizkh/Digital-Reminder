@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add comment to issue
-        uses: actions/github-script@v6
+        uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.TOKEN }}
           script: |
