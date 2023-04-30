@@ -26,7 +26,7 @@ const ToDo: FC = () => {
   }
   return (
     <div>
-        <img src={todo} alt="To do"  />
+      <img src={todo} alt="To do" />
       <Stack className='toDoTask' direction='row' spacing={1}>
         <TextField
           hiddenLabel
@@ -50,7 +50,7 @@ const ToDo: FC = () => {
           :
           <h3>No Items are added yet in the List</h3>
       }
-      </div>
+    </div>
   )
 }
 
