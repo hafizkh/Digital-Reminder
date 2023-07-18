@@ -24,21 +24,30 @@ const ToDo: FC = () => {
       return task.taskName != taskToBeDeleted
     }))
   }
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    addTask()
+
+  }
   return (
     <div>
       <img src={todo} alt="To do" />
-      <Stack className='toDoTask' direction='row' spacing={1}>
-        <TextField
-          hiddenLabel
-          name='yourTask'
-          label="Your New Task"
-          id="outlined-size-small"
-          size="small"
-          value={task}
-          onChange={handleChange}
-        />
-        <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
-      </Stack>
+      <form onSubmit={handleSubmit}>
+
+        <Stack className='toDoTask' direction='row' spacing={1}>
+          <TextField
+            hiddenLabel
+            name='yourTask'
+            label="Your New Task"
+            id="outlined-size-small"
+            size="small"
+            value={task}
+            onChange={handleChange}
+          />
+          <Button className='btn' variant='outlined'>Add Task</Button>
+        </Stack>
+      </form>
       {
         todoList.length ?
           <Stack className="listToDo" direction='column'>
