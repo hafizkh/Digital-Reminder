@@ -15,7 +15,7 @@ const ToDo: FC = () => {
     setTask(e.target.value)
   }
   const addTask = (): void => {
-    const taskNew = { taskName: task }
+    const taskNew = { id: Date.now(), taskName: task }
     setTodoList([...todoList, taskNew])
     setTask("")
   }
@@ -27,6 +27,7 @@ const ToDo: FC = () => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
+    if (!task) return;
     addTask()
 
   }
@@ -45,7 +46,7 @@ const ToDo: FC = () => {
             value={task}
             onChange={handleChange}
           />
-          <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
+          <Button className='btn' variant='outlined' onClick={handleSubmit}>Add Task</Button>
         </Stack>
       </form>
       {

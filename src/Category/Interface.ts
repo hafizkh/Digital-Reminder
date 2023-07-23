@@ -1,4 +1,4 @@
-export interface TasksInterface{
-    taskName:string;
-    
+export interface TasksInterface {
+  taskName: string;
+  id: number;
 }
