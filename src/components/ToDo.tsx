@@ -45,7 +45,7 @@ const ToDo: FC = () => {
             value={task}
             onChange={handleChange}
           />
-          <Button className='btn' variant='outlined'>Add Task</Button>
+          <Button className='btn' variant='outlined' onClick={addTask}>Add Task</Button>
         </Stack>
       </form>
       {
