@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from 'react';
+import React, { FC, useState, ChangeEvent, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -9,7 +9,15 @@ import todo from '../assets/images.jpg';
 
 const ToDo: FC = () => {
   const [task, setTask] = useState<string>("");
-  const [todoList, setTodoList] = useState<TasksInterface[]>([]);
+  const [todoList, setTodoList] = useState<TasksInterface[]>(() => {
+    // Retrieve tasks from local storage and parse them or default to an empty array
+    const savedTasks = localStorage.getItem("todoList");
+    return savedTasks ? JSON.parse(savedTasks) as TasksInterface[] : [];
+  })
+
+  useEffect(() => {
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }, [todoList]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTask(e.target.value);
