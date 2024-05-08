@@ -12,7 +12,7 @@ export default function SimpleBottomNavigation() {
     return (
         <Box sx={{
             position: 'fixed', left: 0, right: 0, bottom: 0,
-            boxShadow: 'rgb(114 142 147 / 30%) 0px 5px 15px 0px', backgroundColor: '#1976d2'
+            boxShadow: 'rgb(114 142 147 / 30%) 0px 5px 15px 0px', backgroundColor: '#1976d2', zIndex: 999
         }}>
             <BottomNavigation
                 showLabels

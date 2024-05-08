@@ -1,24 +1,113 @@
-
 .toDoTask {
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    
-    }
-.todoList{
+
+}
+
+.todoList {
     margin-top: 2rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.content{
+
+.content {
     display: flex;
 }
-.deleteBtn{
+
+.deleteBtn {
     padding-left: 13rem
 }
-img{
+
+img {
     width: 9rem;
     height: 8rem;
+}
+
+.todo-app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Centers children vertically in the container
+    align-items: center; // Centers children horizontally in the container
+    min-height: 100vh; // Ensures the container takes at least the full viewport height
+    padding: 20px;
+    box-sizing: border-box;
+    padding-bottom: 80px; // Adjust this value based on your footer height
+}
+
+.todo-image {
+    max-width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.todo-form {
+    margin-bottom: 20px;
+}
+
+.toDoTask {
+    justify-content: center;
+}
+
+.task-input {
+    width: 250px;
+}
+
+.listToDo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; // Adjust based on your design requirements
+    max-width: 800px;
+    margin: auto;
+    transition: all 0.3s ease;
+}
+
+
+.task-card {
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.task-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-card {
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%; // Full width on smaller screens
+    max-width: 600px; // Limit width on larger screens
+
+    @media (min-width: 768px) {
+        width: 90%; // Slightly less width on medium to large screens
+    }
+}
+
+.no-tasks {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.task-card {
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%; // Ensures content uses up all available space
+        padding: 15px;
+    }
 }

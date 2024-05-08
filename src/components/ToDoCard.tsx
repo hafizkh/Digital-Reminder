@@ -1,36 +1,34 @@
-import React from 'react'
-import { TasksInterface } from '../Category/Interface'
-import Typography from '@mui/material/Typography'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import Button from '@mui/material/Button'
+import React from 'react';
+import { TasksInterface } from '../Category/Interface';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 interface Props {
     task: TasksInterface;
-    handleDel(taskToBeDeleted: string): void
+    handleDel(taskToBeDeleted: string): void;
 }
+
 const ToDoCard = ({ task, handleDel }: Props) => {
-
     return (
-        <div className='todoList'>
-            <Card sx={{ minWidth: 330 }}>
-                <CardContent className='content'>
-                    <Typography variant="h6">
-                        {task.taskName}
-                        <Button className='deleteBtn' style={{ paddingLeft: '12rem' }}
-                            onClick={() => { handleDel(task.taskName) }}>
-                            <DeleteForeverIcon />
-                        </Button>
-                    </Typography>
-                </CardContent>
-            </Card>
-        </div>
-    )
-}
+        <Card sx={{ minWidth: 330, maxWidth: 600, width: '90%', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', margin: '10px auto', display: 'flex', flexDirection: 'column' }}>
+            <CardContent sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', padding: '10px' }}>
+                <Typography variant="h6" sx={{ flexGrow: 1, marginRight: 'auto' }}>
+                    {task.taskName}
+                </Typography>
+                <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleDel(task.taskName)}
+                    sx={{ minWidth: '40px' }} // Ensures the button has a fixed size
+                >
+                    <DeleteForeverIcon />
+                </Button>
+            </CardContent>
+        </Card>
+    );
+};
 
-export default ToDoCard
-function handleDel(taskName: string) {
-    throw new Error('Function not implemented.')
-}
-
+export default ToDoCard;
