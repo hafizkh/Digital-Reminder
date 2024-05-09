@@ -38,7 +38,14 @@ const ToDo: FC = () => {
     if (!task) return;
     addTask();
   };
-
+  const handleUpdate = (taskId: number, newName: string): void => {
+    setTodoList(todoList.map(task => {
+      if (task.id === taskId) {
+        return { ...task, taskName: newName };
+      }
+      return task;
+    }));
+  };
   return (
     <div className="todo-app">
       <img src={todo} alt="To do" className="todo-image" />
@@ -94,7 +101,7 @@ const ToDo: FC = () => {
         <Stack className="listToDo" direction="column" spacing={2}>
           <h2>List of Todos</h2>
           {todoList.map((task: TasksInterface, key: number) => (
-            <ToDoCard key={key} task={task} handleDel={handleDel} />
+            <ToDoCard key={key} task={task} handleDel={handleDel} handleUpdate={handleUpdate} />
           ))}
         </Stack>
       ) : (
