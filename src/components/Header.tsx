@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import FilePpt from './FilePpt';
 
 export default function Header() {
   return (
@@ -25,7 +24,6 @@ export default function Header() {
               Digital Reminder
             </Typography>
           </Box>
-          <FilePpt />
         </Toolbar>
       </AppBar>
     </Box>
